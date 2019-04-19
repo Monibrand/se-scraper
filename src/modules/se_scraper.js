@@ -187,7 +187,7 @@ module.exports = class Scraper {
                     }
 
                     let html = await this.page.content();
-                    this.html_output[keyword] = html;
+                    this.html_output[keyword][page_num] = html;
 
                     // if (this.pluggable.after_keyword_searched) {
                     //     await this.pluggable.after_keyword_searched({
@@ -196,10 +196,8 @@ module.exports = class Scraper {
                     //     });
                     // }
 
-                    if (this.config.html_output !== true) {          
                         let parsed = this.parse(html);
                         this.results[keyword][page_num] = parsed ? parsed : await this.parse_async(html);
-                    }
 
                     page_num += 1;
 
