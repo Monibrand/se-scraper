@@ -30,7 +30,7 @@ module.exports = class Scraper {
         this.PROXY_TIMEOUT = 15000;
         this.SOLVE_CAPTCHA_TIME = 45000;
 
-        this.html_output = [];
+        this.html_output = {};
         this.results = {};
         this.result_rank = 1;
         // keep track of the requests done
@@ -159,6 +159,7 @@ module.exports = class Scraper {
             this.num_keywords++;
             this.keyword = keyword;
             this.results[keyword] = {};
+            this.html_output[keyword] = {};
             this.result_rank = 1;
 
             if (this.pluggable.before_keyword_scraped) {
