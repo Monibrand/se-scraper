@@ -31,8 +31,8 @@ module.exports = class Scraper {
         this.proxy = config.proxy;
         this.keywords = config.keywords;
 
-        this.STANDARD_TIMEOUT = 10000;
-        this.SOLVE_CAPTCHA_TIME = 45000;
+        this.STANDARD_TIMEOUT = config.standard_timeout;
+        this.SOLVE_CAPTCHA_TIME = config.solve_captcha_time;
 
         this.results = {};
         this.result_rank = 1;
@@ -272,6 +272,12 @@ module.exports = class Scraper {
                     await this.page.screenshot({ path: `debug_se_scraper_${this.config.search_engine_name}_${keyword}.png` });
                 }
 
+                if (this.config.keep_html_on_error){
+                    const html_error = await this.page.content();
+                    e.keep_html_on_error = html_error;
+                    e.lastUrl = await this.page.evaluate(() => {return window.location.href;});
+                }
+            
                 this.metadata.scraping_detected = await this.detected();
 
                 if (this.metadata.scraping_detected === true) {
